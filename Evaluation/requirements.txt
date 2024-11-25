@@ -1,0 +1,12 @@
+python-dotenv==1.0.1
+openai==1.43.0
+scikit-learn==1.5.1
+datasets~=2.21
+transformers~=4.44
+pandas~=2.2
+plotly
+matplotlib
+Jinja2
+evaluate
+rouge_score
+
