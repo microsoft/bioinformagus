@@ -1,0 +1,1 @@
+For RAG we used Azure congative search following these instructions for indexing: https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview
