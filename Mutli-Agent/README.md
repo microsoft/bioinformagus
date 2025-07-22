@@ -44,6 +44,32 @@ AZURE_AI_SEARCH_API_KEY = "<YOUR_AZURE_SEARCH_API_KEY>"
 ```
 Replace the placeholders above with your actual credentials.
 
+## AzureML Endpoint Setup
+
+To deploy and configure an AzureML endpoint (for serving models such as Phi-3), follow the official documentation:
+
+- [Deploy a model to an online endpoint in Azure Machine Learning](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-deploy-online-endpoints)
+- [Tutorial: Deploy a foundation model on AzureML](https://learn.microsoft.com/en-us/azure/machine-learning/tutorial-deploy-foundation-models)
+- [Phi-3 Cookbook](https://github.com/microsoft/Phi-3CookBook) (see "Deploying Phi-3 to AzureML" and sample notebooks and using the Fine-tune data in the folder.)
+
+You will need your endpoint URL and API key after deployment. Refer to the [AzureML authentication docs](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-authenticate) for details on credentials.
+
+---
+
+## Azure AI Search Service Setup
+
+To create and configure an Azure AI Search service and index for RAG:
+
+- [Quickstart: Create an Azure AI Search service in the portal](https://learn.microsoft.com/en-us/azure/search/search-create-service-portal)
+- [Tutorial: Use Azure AI Search for Retrieval-Augmented Generation](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview)
+- [Azure AI Search documentation](https://learn.microsoft.com/en-us/azure/search/)
+- Start with example RAG data in the folder. 
+
+You will need your service name, admin/api key, and index name (e.g. `vector-rag`). For using vector search (for Phi-3), see:
+- [Vector search in Azure AI Search](https://learn.microsoft.com/en-us/azure/search/vector-search-overview)
+
+---
+
 ## Usage
 
 1. **Install dependencies:**  
