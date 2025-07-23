@@ -37,7 +37,7 @@ Here, you can find the jupyter-notebooks for benchmarking and examples of a mutl
 
   Example of nf-core modules converted to to JSONL [nfc.jsonl](RAG/nfc.jsonl)
 
-- **Mutli-Agent/**  
+- **Multi-Agent/**  
 
 The notebooks in this folder demonstrate workflows, experiments, and benchmarking using multi-agent systems for bioinformatics tasks. These examples are intended to help users understand how to leverage agent-based approaches for complex data analysis and automation in bioinformatics.
 
