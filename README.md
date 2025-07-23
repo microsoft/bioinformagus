@@ -1,68 +1,104 @@
-# Bioinformagus
+# Multiagent Setup Guide
 
+This guide describes how to set up and use the `.ipynb` notebook in the [Multi-Agent](../).
 
-This repository is an example of running the multiagent bioinformatics analysis<br/>
+## Overview
 
-Here, you can find the jupyter-notebooks for benchmarking and examples of a mutliagent system
+The notebooks demonstrates a multi-agent bioinformatics solution using multiple language models and retrieval systems. It orchestrates:
+- A fine-tuned LLM agent
+- A Retrieval-Augmented Generation (RAG) agent using Azure Cognitive Search and Phi-3
+- A reasoning agent (Phi-3) to solve and explain bioinformatics problems with code and logic, including quality rating of responses
 
-## Directory Overview
+## Prerequisites
 
-- **Evaluation/**
-  
-  Directory exists for evaluation purposes of different language models such as (GPT-4, GPT-4o, Phi3, Phi3.5 and Phi3.5MOE) against the Biostart
-  benchmark questions/answers as provided by [analysis_and_tools_only.csv](Evaluation/analysis_and_tools_only.csv). Each subdirectory has a notebook
-  or python code on how to run the evauluations and when availble provided example benchmarks.
-  
-- **Fine-tune/**
-  
-  Contains resources for formating data for fine-tuning with Phi-3, including example notebooks. Reference: [Phi-3CookBook](https://github.com/microsoft/Phi-3CookBook/tree/main).
+- Python 3.12 or above (recommended: Anaconda environment)
+- Jupyter Notebook (`pip install notebook` or via Anaconda)
+- Access to AzureML endpoints, Azure Cognitive Search, and required API keys
 
-  The main notebook [fine_tuning_data_format.ipynb](Fine-tune/input_data/format_input_data/fine_tuning_data_format.ipynb), converts [Software Tools and Description](Fine-tune/input_data/format_input_data/biocontainers_1.jsonl) and [Biocontainers Tool commandline options](Fine-tune/input_data/format_input_data/biocontainers_help.jsonl) to the correct jsonl format respectivley [FT_tools.jsonl](Fine-tune/input_data/format_input_data/FT_tools.jsonl) and [FT_docs.jsonl](Fine-tune/input_data/format_input_data/FT_docs.jsonl).
+## Required Python Packages
 
-  - The note book also splits the data into test and train.
-    - Software Tools Descriptions (Biocontainers and Software Ontology)
-        - Test: [Test_1.jsonl](Fine-tune/input_data/test_1.jsonl)
-        - Train: [Train_1.jsonl](Fine-tune/input_data/train_1.jsonl)
-    - Biocontainer Commlandline options
-        - Test: [Test_2.jsonl](Fine-tune/input_data/test_2.jsonl)
-        - Train: [Train_2.jsonl](Fine-tune/input_data/train_2.jsonl)
-    - Final data is combined into:
-        - Train: [train.jsonl](Fine-tune/train.jsonl)
-        - Eval: [eval.jsonl](Fine-tune/eval.jsonl)
-  
+Install the required packages by running the following in a notebook cell or your terminal:
 
-- **RAG/**  
+```python
+%pip install langchain_community
+%pip install azure-ai-ml
+%pip install -qU langchain-openai
+%pip install json5
+```
 
-  Contains resources for Retrieval-Augmented Generation (RAG) using Azure Cognitive Search, with instructions for indexing available [here](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overviewg).
+Additional dependencies may be needed, per the notebook logic (e.g., `requests`, `numpy`, etc.), but these are the core packages for interacting with AzureML and language model endpoints.
 
-  Example of nf-core modules converted to to JSONL [nfc.jsonl](RAG/nfc.jsonl)
+## Environment Configuration
 
-- **Multi-Agent/**  
+You need to provide your Azure credentials and endpoint URLs for the notebook to work:
+- AzureML endpoint URLs and API keys
+- Azure AI Search service name and API key
 
-The notebooks in this folder demonstrate workflows, experiments, and benchmarking using multi-agent systems for bioinformatics tasks. These examples are intended to help users understand how to leverage agent-based approaches for complex data analysis and automation in bioinformatics.
+Update the following variables in the notebook:
+```python
+endpoint_url = "<YOUR_AZUREML_ENDPOINT_URL>"
+endpoint_api_key = "<YOUR_AZUREML_API_KEY>"
+AZURE_AI_SEARCH_SERVICE_NAME = "<YOUR_AZURE_SEARCH_SERVICE_NAME>"
+AZURE_AI_SEARCH_API_KEY = "<YOUR_AZURE_SEARCH_API_KEY>"
+```
+Replace the placeholders above with your actual credentials.
 
-- Evaluation against user questions: [Multiagent_response.ipynb](Multi-Agent/Multiagent_response.ipynb)
-- Evaluation against Biostarts questions[Multiagent_biostars.ipynb](Multi-Agent/Multiagent_biostars.ipynb)
+## AzureML Endpoint Setup
 
+To deploy and configure an AzureML endpoint (for serving models such as Phi-3), follow the official documentation:
 
-## Contributing
+- [Deploy a model to an online endpoint in Azure Machine Learning](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-deploy-online-endpoints)
+- [Tutorial: Deploy a foundation model on AzureML](https://learn.microsoft.com/en-us/azure/machine-learning/tutorial-deploy-foundation-models)
+- [Phi-3 Cookbook](https://github.com/microsoft/Phi-3CookBook) (see "Deploying Phi-3 to AzureML" and sample notebooks and using the Fine-tune data in the folder.)
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+You will need your endpoint URL and API key after deployment. Refer to the [AzureML authentication docs](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-authenticate) for details on credentials.
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+---
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+## Azure AI Search Service Setup
 
-## Trademarks
+To create and configure an Azure AI Search service and index for RAG:
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+- [Quickstart: Create an Azure AI Search service in the portal](https://learn.microsoft.com/en-us/azure/search/search-create-service-portal)
+- [Tutorial: Use Azure AI Search for Retrieval-Augmented Generation](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview)
+- [Azure AI Search documentation](https://learn.microsoft.com/en-us/azure/search/)
+- Start with example RAG data in the folder. 
+
+You will need your service name, admin/api key, and index name (e.g. `vector-rag`). For using vector search (for Phi-3), see:
+- [Vector search in Azure AI Search](https://learn.microsoft.com/en-us/azure/search/vector-search-overview)
+
+---
+
+## Usage
+
+1. **Install dependencies:**  
+   Run the first code cell to install all required Python packages.
+
+2. **Configure endpoints:**  
+   Enter your Azure endpoint URLs and API keys in the appropriate places in the notebook.
+
+3. **Run cells sequentially:**  
+   Execute the notebook cells in order. The notebook will:
+   - Set up agents for solving, coding, and reasoning
+   - Accept bioinformatics questions
+   - Retrieve relevant documentation
+   - Generate code and explanatory responses
+   - Perform quality assessment of each answer
+
+4. **Review outputs:**  
+   The notebook prints responses and quality ratings. Results are optionally saved to a text file for later analysis.
+
+## Troubleshooting
+
+- If you see errors related to missing packages, rerun the installation cell or install them manually.
+- If API calls time out, check your endpoint configuration and network connectivity.
+- Ensure you have access rights to the Azure resources you specify.
+
+## Customization
+
+- You can modify the queries and agent logic to suit other bioinformatics workflows.
+- Adjust the prompt templates and quality rating logic as needed for your specific use case.
+
+---
+
+For more information, see the [Bioinformagus README](../../README.md) or open an issue in the repository for help.
