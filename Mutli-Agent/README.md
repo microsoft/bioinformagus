@@ -1,6 +1,6 @@
 # Multiagent Setup Guide
 
-This guide describes how to set up and use the `.ipynb` notebook in the [Mutli-Agent](../).
+This guide describes how to set up and use the `.ipynb` notebook in the [Multi-Agent](../).
 
 ## Overview
 
